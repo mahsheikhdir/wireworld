@@ -19,19 +19,25 @@ let grid = new Array(rows)
 
 let isDrawing = false;
 
+let brushColor = 3;
+
+function changeBrush(color) {
+  brushColor = color;
+}
+
 canvas.addEventListener("mousedown", (e) => {
   isDrawing = true;
   let x = Math.floor(e.offsetX / zoom);
-    let y = Math.floor(e.offsetY / zoom);
-    grid[x][y] = 1;
-    draw();
+  let y = Math.floor(e.offsetY / zoom);
+  grid[x][y] = brushColor;
+  draw();
 });
 
 canvas.addEventListener("mousemove", (e) => {
   if (isDrawing) {
     let x = Math.floor(e.offsetX / zoom);
     let y = Math.floor(e.offsetY / zoom);
-    grid[x][y] = 1;
+    grid[x][y] = brushColor;
     draw();
   }
 });
@@ -68,6 +74,8 @@ function start() {
   }
 }
 
+
+
 function nextGen() {
   let newGrid = new Array(rows)
     .fill(0)
@@ -97,16 +105,13 @@ function nextGen() {
         }
       }
 
-      if (curr == 0){
+      if (curr == 0) {
         newGrid[x][y] = 0;
-      }
-      else if (curr == 1) {
+      } else if (curr == 1) {
         newGrid[x][y] = 2;
-      }
-      else if (curr == 2) {
+      } else if (curr == 2) {
         newGrid[x][y] = 3;
-      }
-      else if (curr == 3 && neighbors == 1 || neighbors == 2){
+      } else if ((curr == 3 && neighbors == 1) || neighbors == 2) {
         newGrid[x][y] = 1;
       } else {
         newGrid[x][y] = grid[x][y];
